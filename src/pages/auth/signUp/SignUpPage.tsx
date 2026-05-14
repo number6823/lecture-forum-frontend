@@ -4,8 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import styled from "styled-components";
 import { Gender } from "../../../types/user.type.ts";
 import Button from "../../../components/common/button/Button.tsx";
+import { useNavigate } from "react-router";
 
 function SignUpPage() {
+    const navigate = useNavigate();
     // 회원가입 화면
 
     // input들을 react-hook-form으로 관리
@@ -23,16 +25,67 @@ function SignUpPage() {
     // pnpm install @hookform/resolvers
 
     // isSubmitting : handleSubmit을 통해 "전송" 중이라면 true, 아니라면 false 값
+    // setError : 에러 발생 시, 해당 항목에 대한 에러 메시지를 설정하느 메서드
     const {
         register,
         handleSubmit,
+        setError,
         formState: { errors, isSubmitting },
     } = useForm<SignUpInputType>({
         resolver: zodResolver(signUpSchema),
         mode: "onBlur", // 언제 검증할 것인지
     });
 
-    const onSubmit = () => {};
+    // errors
+    // 처음에는 errors ={} 형태로 존재함
+    // 그러다가 각 항목에 에러가 발생이 되면 (검증에 실패하면) 그 안에 key가 추가됨
+    // username의 검증에 실패하면 errors = { username: { message: "에러내용"} }; 형태가 됨
+    // errors는 각 항목에 대한 에러만 관리하는게 아니라 대표 errors 항목인 "root"라는 항목도 있음
+
+    const onSubmit = async (data: SignUpInputType) => {
+        try {
+            const { passwordConfirm, ...submitData } = data;
+
+            // submitDate를 백엔드에게 전송 => fetch를 해준다? => 비동기함수네 => async-await => try-catch
+            // fetch(주소,옵션); => 주소는 필수값, 옵션은 선택값
+            // 옵션 객체 {method,header,body}
+            const response = await fetch("http://localhost:8000/user/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(submitData), // 객체를 그대로 보낼 수 없고,JSON.stringify()를 통해 JSON형식의 string으로 변환
+            });
+
+            // response도 http 메세지 내용이 기록되긱 떄문에 string을 JSON으로 파싱해야 함
+            const result = await response.json();
+
+            // response.ok 프로퍼티 안에 response 상태 코드가 200번대라면 true, 아니라면 false
+            // throw 키워드는 예외를 발생시켜  catch로 내가 임의적으로 보내는 것
+            if (!result.ok) {
+                throw new Error(result.message || "회원가입 중 오류가 발생했습니다.");
+            }
+            // 백엔드에게 전송해서 성공
+            alert("회원가입이 완료되었습니다. 로그인을 진행해주세요.");
+            navigate("/auth/signin");
+        } catch (error) {
+            if (error instanceof Error) {
+                const errorMessage = error.message;
+                if (errorMessage === "이미 사용 중인 아이디입니다.") {
+                    setError("username", { message: errorMessage });
+                } else if (errorMessage === "이미 가입된 이메일입니다.") {
+                    setError("email", { message: errorMessage });
+                } else if (errorMessage === "이미 사용 중인 닉네임입니다.") {
+                    setError("nickname", { message: errorMessage });
+                } else {
+                    setError("root", { message: errorMessage });
+                }
+            }
+            // 백엔드에게 전송해서 실패
+            console.log(error);
+            setError("root", { message: "회원가입에 실패했습니다. 다시 시도해주세요." });
+        }
+    };
 
     return (
         <AuthContainer>
