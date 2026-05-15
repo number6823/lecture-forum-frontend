@@ -1,12 +1,21 @@
 import { useForm } from "react-hook-form";
 import { type SignUpInputType, signUpSchema } from "../../../schemas/auth/signUpSchema.ts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import styled from "styled-components";
 import { Gender } from "../../../types/user.type.ts";
 import Button from "../../../components/common/button/Button.tsx";
 import { useNavigate } from "react-router";
-import axiosIntance from "../../../api/axiosIntance.ts";
+import axiosInstance from "../../../api/axiosInstance.ts";
 import * as axios from "axios";
+import {
+    AuthContainer,
+    AuthFormBox,
+    AuthFormCard,
+    AuthRootErrorMessage,
+    AuthSubTitle,
+    AuthTitle,
+} from "../../../components/auth/auth.style.tsx";
+import InputGroup from "../../../components/common/input/InputGroup.tsx";
+import SelectGroup from "../../../components/common/select/SelectGroup.tsx";
 
 function SignUpPage() {
     const navigate = useNavigate();
@@ -51,7 +60,7 @@ function SignUpPage() {
             // fetch()로 통신을 하면, 백엔드가 전닳해주는 response가 존재하기만 하면 성공으로 판단하지만
             // axios로 통신을 하면, 백엔드가 2xx번대 성공 코드를 전달해줘야만 성공으로 판단
             // 이외의 에러는 catch 처리됨
-            await axiosIntance.post("/user/create", submitData);
+            await axiosInstance.post("/user/create", submitData);
 
             // 성공을 했었을 때 백엔드가 전달해준 내용은 response.data에 객체 상태로 존재함 (JSON 파싱할 필요 없음)
 
@@ -78,108 +87,87 @@ function SignUpPage() {
 
     return (
         <AuthContainer>
-            <FormCard onSubmit={handleSubmit(onSubmit)}>
-                <Title>회원가입</Title>
-                <SubTitle>토론대난투에 오신 것을 환영합니다!</SubTitle>
+            <AuthFormCard onSubmit={handleSubmit(onSubmit)}>
+                <AuthTitle>회원가입</AuthTitle>
+                <AuthSubTitle>토론대난투에 오신 것을 환영합니다!</AuthSubTitle>
 
-                <FormBox>
-                    <InputGroup>
-                        <Label htmlFor={"username"}>아이디</Label>
-                        <Input
-                            {...register("username")}
-                            $hasError={!!errors.username} // !를 붙인다는건, 어떠한 값이든 있으면 false 없으면 true, 반대값으로 boolean 형변환
-                            // !!를 붙인다는건, 어떠한 값이든 있으면 true 없으면 false, boolean 형변환
-                            id={"username"}
-                            placeholder={"4자 이상 필요"}
-                        />
-                        {errors.username && <E>{errors.username.message}</E>}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"password"}>비밀번호</Label>
-                        <Input
-                            {...register("password")}
-                            $hasError={!!errors.password}
-                            id={"password"}
-                            placeholder={"6자 이상 필요"}
-                            type={"password"}
-                        />
-                        {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"passwordConfirm"}>비밀번호 확인</Label>
-                        <Input
-                            {...register("passwordConfirm")}
-                            $hasError={!!errors.passwordConfirm}
-                            id={"passwordConfirm"}
-                            placeholder={"비밀번호를 한 번 더 입력해주세요"}
-                            type={"password"}
-                        />
-                        {errors.passwordConfirm && (
-                            <ErrorMessage>{errors.passwordConfirm.message}</ErrorMessage>
-                        )}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"name"}>이름</Label>
-                        <Input {...register("name")} $hasError={!!errors.name} id={"name"} />
-                        {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"nickname"}>닉네임</Label>
-                        <Input
-                            {...register("nickname")}
-                            $hasError={!!errors.nickname}
-                            id={"nickname"}
-                            placeholder={"닉네임을 2자 이상 입력해주세요"}
-                        />
-                        {errors.nickname && <ErrorMessage>{errors.nickname.message}</ErrorMessage>}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"email"}>이메일</Label>
-                        <Input
-                            {...register("email")}
-                            $hasError={!!errors.email}
-                            id={"email"}
-                            type={"email"}
-                        />
-                        {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"phoneNumber"}>전화번호</Label>
-                        <Input
-                            {...register("phoneNumber")}
-                            $hasError={!!errors.phoneNumber}
-                            id={"phoneNumber"}
-                            type={"tel"}
-                        />
-                        {errors.phoneNumber && (
-                            <ErrorMessage>{errors.phoneNumber.message}</ErrorMessage>
-                        )}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"birthdate"}>생년월일</Label>
-                        {/* type="date"를 통해 입력을 받더라도, 전송하는 내용은 "xxxx-xx-xx" 형태의 string이 전송됨 */}
-                        <Input
-                            {...register("birthdate")}
-                            $hasError={!!errors.birthdate}
-                            id={"birthdate"}
-                            type={"date"}
-                        />
-                        {errors.birthdate && (
-                            <ErrorMessage>{errors.birthdate.message}</ErrorMessage>
-                        )}
-                    </InputGroup>
-                    <InputGroup>
-                        <Label htmlFor={"gender"}>성별</Label>
-                        <Select {...register("gender")} $hasError={!!errors.gender} id={"gender"}>
-                            <option value={""}>성별을 선택해주세요</option>
-                            <option value={Gender.MALE}>남성</option>
-                            <option value={Gender.FEMALE}>여성</option>
-                        </Select>
-                        {errors.gender && <ErrorMessage>{errors.gender.message}</ErrorMessage>}
-                    </InputGroup>
-                </FormBox>
+                <AuthFormBox>
+                    <InputGroup
+                        label={"아이디"}
+                        id={"username"}
+                        errorMessage={errors.username?.message}
+                        registerObj={register("username")}
+                        placeholder={"4자 이상 필요"}
+                    />
 
-                {errors.root && <RootErrorMessage>{errors.root.message}</RootErrorMessage>}
+                    <InputGroup
+                        label={"비밀번호"}
+                        id={"password"}
+                        errorMessage={errors.password?.message}
+                        registerObj={register("password")}
+                        placeholder={"6자 이상 필요"}
+                        type={"password"}
+                    />
+
+                    <InputGroup
+                        label={"비밀번호 확인"}
+                        id={"passwordConfirm"}
+                        errorMessage={errors.passwordConfirm?.message}
+                        registerObj={register("passwordConfirm")}
+                        placeholder={"비밀번호를 한 번 더  입력해주세요"}
+                        type={"passwordConfirm"}
+                    />
+
+                    <InputGroup
+                        label={"이름"}
+                        id={"name"}
+                        errorMessage={errors.name?.message}
+                        registerObj={register("name")}
+                    />
+
+                    <InputGroup
+                        label={"닉네임"}
+                        id={"nickname"}
+                        errorMessage={errors.nickname?.message}
+                        registerObj={register("nickname")}
+                        placeholder={"닉네임을 2자 이상 입력해주세요"}
+                    />
+
+                    <InputGroup
+                        label={"이메일"}
+                        id={"email"}
+                        errorMessage={errors.email?.message}
+                        registerObj={register("email")}
+                        type={"email"}
+                    />
+
+                    <InputGroup
+                        label={"phoneNumber"}
+                        id={"phoneNumber"}
+                        errorMessage={errors.phoneNumber?.message}
+                        registerObj={register("phoneNumber")}
+                        type={"tel"}
+                    />
+
+                    <InputGroup
+                        label={"생년월일"}
+                        id={"birthdate"}
+                        errorMessage={errors.birthdate?.message}
+                        registerObj={register("birthdate")}
+                        type={"birthdate"}
+                    />
+                    <SelectGroup
+                        label={"성별"}
+                        id={"gender"}
+                        errorMessage={errors.gender?.message}
+                        registerObj={register("gender")}>
+                        <option value={""}>성별을 선택해주세요</option>
+                        <option value={Gender.MALE}>남성</option>
+                        <option value={Gender.FEMALE}>여성</option>
+                    </SelectGroup>
+                </AuthFormBox>
+
+                {errors.root && <AuthRootErrorMessage>{errors.root.message}</AuthRootErrorMessage>}
 
                 <Button
                     color={"primary"}
@@ -189,114 +177,9 @@ function SignUpPage() {
                     type={"submit"}>
                     회원가입
                 </Button>
-            </FormCard>
+            </AuthFormCard>
         </AuthContainer>
     );
 }
 
 export default SignUpPage;
-
-const AuthContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const FormCard = styled.form`
-    width: 100%;
-    max-width: 480px;
-    background-color: ${props => props.theme.colors.background.paper};
-    border-radius: 16px;
-    border: 1px solid ${props => props.theme.colors.divider};
-    padding: 40px 20px;
-`;
-
-const Title = styled.h1`
-    font-size: 28px;
-    font-weight: 800;
-    color: ${props => props.theme.colors.primary};
-    margin-bottom: 8px;
-    text-align: center;
-`;
-
-const SubTitle = styled.h6`
-    font-size: 15px;
-    color: ${props => props.theme.colors.text.disabled};
-    text-align: center;
-    margin-bottom: 32px;
-`;
-
-const FormBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    margin-bottom: 50px;
-`;
-
-const InputGroup = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-`;
-
-const Label = styled.label`
-    font-size: 14px;
-    font-weight: 800;
-    color: ${props => props.theme.colors.text.default};
-`;
-
-const Input = styled.input<{ $hasError?: boolean }>`
-    width: 100%;
-    padding: 12px 16px;
-    background-color: ${props => props.theme.colors.background.default};
-    border: 1px solid
-        ${props => (props.$hasError ? props.theme.colors.error : props.theme.colors.divider)};
-    border-radius: 8px;
-    font-size: 15px;
-    color: ${props => props.theme.colors.text.default};
-    transition: all 0.5s;
-
-    &::placeholder {
-        color: ${props => props.theme.colors.text.disabled};
-    }
-
-    &:focus {
-        border-color: ${props =>
-            props.$hasError ? props.theme.colors.error : props.theme.colors.primary};
-    }
-`;
-
-const Select = styled.select<{ $hasError?: boolean }>`
-    width: 100%;
-    padding: 12px 16px;
-    background-color: ${props => props.theme.colors.background.default};
-    border: 1px solid
-        ${props => (props.$hasError ? props.theme.colors.error : props.theme.colors.divider)};
-    border-radius: 8px;
-    font-size: 15px;
-    color: ${props => props.theme.colors.text.default};
-    transition: all 0.5s;
-
-    &::placeholder {
-        color: ${props => props.theme.colors.text.disabled};
-    }
-
-    &:focus {
-        border-color: ${props =>
-            props.$hasError ? props.theme.colors.error : props.theme.colors.primary};
-    }
-`;
-
-const ErrorMessage = styled.span`
-    font-size: 13px;
-    color: ${props => props.theme.colors.error};
-    font-weight: 500;
-`;
-
-const RootErrorMessage = styled.p`
- font-size: 14px;
-    text-align: center;
-    color: ${props=> props.theme.colors.error};
-    font-weight: 500;
-    margin-bottom: 50px; 
-`
