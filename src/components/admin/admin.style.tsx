@@ -71,7 +71,7 @@ export const AdminButtonGroup = styled.div<{ $align? : "left" | "right" | "cente
 display: flex;
 gap: 12px;
 align-items: center;
-    justify-content: ${({$align = "right"}) => $align === "right" ? "flex-end" : $align === "center" ? "center" : "flex-start"};
+justify-content: ${({$align = "right"}) => $align === "right" ? "flex-end" : $align === "center" ? "center" : "flex-start"};
 `
 
 
