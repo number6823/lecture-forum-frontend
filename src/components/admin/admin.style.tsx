@@ -55,23 +55,28 @@ export const AdminTd = styled.td`
     vertical-align: middle;
 `;
 
+export const AdminForm = styled.form<{$wrap?: boolean}>`
+    display: flex;
+    flex-direction: ${props => (props.$wrap ? "row" : "column")};
+    flex-wrap: ${props => (props.$wrap ? "wrap" : "nowrap")};
+    gap: 32px;
+`;
 
-export const AdminForm = styled.form`
-display: flex;
-flex-direction: column;
-gap:32px;
-`
+export const AdminFormWrap = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+`;
 
 // 매 번 props에 대한 함수를 props => 로 써줬었던 것은
 // 그렇게 만드는 함수의 매개변수가 1개이기 때문에 (props) => 에서 소괄호가 생략됐던 것
 // 그렇게 들어오느 props.$align 의 기본값을 설정해주기 위해서는
 // 소괄호를 생략하지 않고 (props) => 로 써줘야 되며,
 // 구조분해할당을 통해 ({$align}) => 로 써줘야 함
-export const AdminButtonGroup = styled.div<{ $align? : "left" | "right" | "center"}>`
-display: flex;
-gap: 12px;
-align-items: center;
-justify-content: ${({$align = "right"}) => $align === "right" ? "flex-end" : $align === "center" ? "center" : "flex-start"};
-`
-
-
+export const AdminButtonGroup = styled.div<{ $align?: "left" | "right" | "center" }>`
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: ${({ $align = "right" }) =>
+        $align === "right" ? "flex-end" : $align === "center" ? "center" : "flex-start"};
+`;

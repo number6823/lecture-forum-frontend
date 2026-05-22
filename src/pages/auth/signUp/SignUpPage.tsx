@@ -154,7 +154,7 @@ function SignUpPage() {
                         id={"birthdate"}
                         errorMessage={errors.birthdate?.message}
                         registerObj={register("birthdate")}
-                        type={"birthdate"}
+                        type={"date"}
                     />
                     <SelectGroup
                         label={"성별"}
