@@ -41,6 +41,8 @@ api.interceptors.request.use(config => {
         // Basic라고 붙으면, 그 뒤에는 Base64로 인코딩된 값이 들어간다는 의미
         // Digest라고 붙으면, MD5 형식으로 암호화한 값이 들어간다는 의미
     }
+
+    return config;
 })
 
 
