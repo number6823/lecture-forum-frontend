@@ -5,15 +5,15 @@ import { darkTheme, lightTheme } from "./styles/theme.ts";
 import { GlobalStyle } from "./styles/GlobalStyle.tsx";
 import { useThemeStore } from "./stores/theme/themeStore.ts";
 
-
 function App() {
-    const {theme} = useThemeStore();
+    const { theme } = useThemeStore();
 
     return (
-        <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
-            <GlobalStyle />
-            <RouterProvider router={GetRouter}></RouterProvider>
-        </ThemeProvider>
+            <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
+                <GlobalStyle />
+                <RouterProvider router={GetRouter}></RouterProvider>
+            </ThemeProvider>
     );
 }
+
 export default App;

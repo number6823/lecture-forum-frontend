@@ -5,7 +5,7 @@ type BadgeColor = "primary" | "secondary" | "error" | "success" | "warning" | "i
 
 type BadgeProps = {
     children: ReactNode;
-    color?: "primary" | "secondary" | "error" | "success" | "warning" | "info" | "default";
+    color?: BadgeColor;
 };
 
 function Badge({ children, color = "default" }: BadgeProps) {
@@ -14,7 +14,9 @@ function Badge({ children, color = "default" }: BadgeProps) {
 
 export default Badge;
 
-const StyledBadge = styled.span<{ $color: BadgeColor }>`
+const StyledBadge = styled.span<{
+    $color: BadgeColor;
+}>`
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -24,46 +26,44 @@ const StyledBadge = styled.span<{ $color: BadgeColor }>`
     font-weight: 600;
     line-height: 1;
     
-    ${({theme,$color}) => {
+    ${({ theme, $color }) => {
         switch ($color) {
-            case "primary": 
+            case "primary":
                 return css`
-                background-color: ${theme.colors.primary}20;
-                color: ${theme.colors.primary};
+                    background-color: ${theme.colors.primary}20;
+                    color: ${theme.colors.primary};
                 `;
-            case  "error":
+            case "error":
                 return css`
-                background-color: ${theme.colors.error}20;
-                color: ${theme.colors.error};
-          `
+                    background-color: ${theme.colors.error}20;
+                    color: ${theme.colors.error};
+                `;
             case "success":
                 return css`
-                background-color: ${theme.colors.success}20;
-                color: ${theme.colors.success};`
+                    background-color: ${theme.colors.success}20;
+                    color: ${theme.colors.success};
+                `;
             case "warning":
                 return css`
                     background-color: ${theme.colors.warning}20;
                     color: ${theme.colors.warning};
                 `;
-                case "info":
-                    return css`
-                        background-color: ${theme.colors.info}20;
-                        color: ${theme.colors.info};
-                    `;
-            case "secondary": 
+            case "info":
+                return css`
+                    background-color: ${theme.colors.info}20;
+                    color: ${theme.colors.info};
+                `;
+            case "secondary":
                 return css`
                     background-color: ${theme.colors.secondary}20;
                     color: ${theme.colors.secondary};
                 `;
-                case "default":
-                    default:
-                        return css`
-                            background-color: ${theme.colors.divider}20;
-                            color: ${theme.colors.text.disabled};
-                        `;
+            case "default":
+            default:
+                return css`
+                    background-color: ${theme.colors.divider}20;
+                    color: ${theme.colors.text.disabled};
+                `;
         }
-        
-        
-    }
-    }
+    }}
 `;

@@ -68,7 +68,6 @@ function AdminUserCreatePage() {
                         registerObj={register("username")}
                         placeholder={"4자 이상 필요"}
                     />
-
                     <InputGroup
                         wrap={true}
                         label={"비밀번호"}
@@ -78,7 +77,6 @@ function AdminUserCreatePage() {
                         placeholder={"6자 이상 필요"}
                         type={"password"}
                     />
-
                     <InputGroup
                         wrap={true}
                         label={"이름"}
@@ -86,7 +84,6 @@ function AdminUserCreatePage() {
                         errorMessage={errors.name?.message}
                         registerObj={register("name")}
                     />
-
                     <InputGroup
                         wrap={true}
                         label={"닉네임"}
@@ -104,7 +101,6 @@ function AdminUserCreatePage() {
                         registerObj={register("email")}
                         type={"email"}
                     />
-
                     <InputGroup
                         wrap={true}
                         label={"전화번호"}
@@ -113,7 +109,6 @@ function AdminUserCreatePage() {
                         registerObj={register("phoneNumber")}
                         type={"tel"}
                     />
-
                     <InputGroup
                         wrap={true}
                         label={"생년월일"}
@@ -142,6 +137,7 @@ function AdminUserCreatePage() {
                         <option value={Role.ADMIN}>관리자</option>
                         <option value={Role.USER}>일반 사용자</option>
                     </SelectGroup>
+
                     <div style={{ width: "100%", gap: "32px" }}>
                         {errors.root && (
                             <AuthRootErrorMessage>{errors.root?.message}</AuthRootErrorMessage>

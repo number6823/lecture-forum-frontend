@@ -15,7 +15,7 @@ import Card from "../../../../components/common/card/Card.tsx";
 import InputGroup from "../../../../components/common/input/InputGroup.tsx";
 import Button from "../../../../components/common/button/Button.tsx";
 import { Link, useNavigate } from "react-router";
-import adminCategoryAPi from "../../../../api/admin/adminCategoryAPi.ts";
+import adminCategoryApi from "../../../../api/admin/adminCategoryApi.ts";
 import * as axios from "axios";
 
 function AdminCategoryCreatePage() {
@@ -33,19 +33,19 @@ function AdminCategoryCreatePage() {
 
     const onSubmit = async (data: AdminCreateCategoryInputType) => {
         try {
-
+            // adminCategoryApi.createCategory() 메서드는 리턴을 하지만,
             // 우리가 쓸모가 없으면, 그냥 버리면 됨
-            await adminCategoryAPi.createCategory(data);
+            await adminCategoryApi.createCategory(data);
             alert("카테고리가 성공적으로 추가되었습니다.");
             navigate("/admin/category");
         } catch (error) {
-            if(axios.isAxiosError(error) && error.response?.status === 409) {
-                setError("name", {message: "이미 존재하는 카테고리 명입니다."});
+            if (axios.isAxiosError(error) && error.response?.status === 409) {
+                setError("name", { message: "이미 존재하는 카테고리 명입니다." });
             } else {
                 alert("카테고리 생성 중 오류가 발생했습니다.");
             }
         }
-    }
+    };
 
     return (
         <AdminContainer>
@@ -67,8 +67,14 @@ function AdminCategoryCreatePage() {
                             color={"secondary"}
                             variant={"text"}
                             as={Link}
-                            to={"/admin/category"}>취소</Button>
-                        <Button type={"submit"} variant={"contained"} color={"primary"} disabled={isSubmitting}>
+                            to={"/admin/category"}>
+                            취소
+                        </Button>
+                        <Button
+                            type={"submit"}
+                            variant={"contained"}
+                            color={"primary"}
+                            disabled={isSubmitting}>
                             등록
                         </Button>
                     </AdminButtonGroup>

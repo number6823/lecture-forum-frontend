@@ -18,6 +18,6 @@ declare module "styled-components" {
             error: string;
             warning: string;
             info: string;
-        };
+        }
     }
 }

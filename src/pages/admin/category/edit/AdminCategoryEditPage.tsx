@@ -12,11 +12,11 @@ import {
     AdminPageHeader,
     AdminTitle,
 } from "../../../../components/admin/admin.style.tsx";
+import Card from "../../../../components/common/card/Card.tsx";
 import InputGroup from "../../../../components/common/input/InputGroup.tsx";
 import Button from "../../../../components/common/button/Button.tsx";
 import { Link, useNavigate, useParams } from "react-router";
-import Card from "../../../../components/common/card/Card.tsx";
-import adminCategoryAPi from "../../../../api/admin/adminCategoryAPi.ts";
+import adminCategoryApi from "../../../../api/admin/adminCategoryApi.ts";
 import * as axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -40,24 +40,24 @@ function AdminCategoryEditPage() {
         const loadInitialData = async () => {
             if (!id) return;
             try {
-                const result = await adminCategoryAPi.fetchCategoryById(Number(id));
-                setValue("name",result.name);
+                const result = await adminCategoryApi.fetchCategoryById(Number(id));
+                setValue("name", result.name);
             } catch (error) {
-                console.error(error);
+                console.log(error);
                 alert("존재하지 않거나 삭제된 카테고리입니다.");
                 navigate("/admin/category");
             } finally {
                 setIsLoading(false);
             }
         };
+
         loadInitialData().then(() => {});
     }, [id, navigate, setValue]);
 
-
-
     const onSubmit = async (data: AdminEditCategoryInputType) => {
+        // 입력된 정보를 백엔드에게 전송
         try {
-            await adminCategoryAPi.updateCategory(Number(id), data);
+            await adminCategoryApi.updateCategory(Number(id), data);
             alert("카테고리가 성공적으로 수정되었습니다.");
             navigate("/admin/category");
         } catch (error) {
@@ -83,7 +83,7 @@ function AdminCategoryEditPage() {
                         <InputGroup
                             id={"name"}
                             label={"카테고리 이름"}
-                            placeholder={"추가할 카테고리명을 입력하세요 (최대 50자)"}
+                            placeholder={"수정할 카테고리명을 입력하세요 (최대 50자)"}
                             errorMessage={errors.name?.message}
                             registerObj={register("name")}
                         />

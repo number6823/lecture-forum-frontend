@@ -4,16 +4,12 @@ import type { ButtonHTMLAttributes, ElementType, ReactNode } from "react";
 export type ButtonColorType = "primary" | "secondary" | "success" | "error" | "warning" | "info";
 export type ButtonVariantType = "contained" | "text" | "icon";
 
-const StyledButton = styled.button<{
-    $color: ButtonColorType;
-    $variant: ButtonVariantType;
-    $fullWidth?: boolean;
-}>`
-    width: ${props => (props.$fullWidth ? "100%" : "auto")};
+const StyledButton = styled.button<{ $color: ButtonColorType; $variant: ButtonVariantType; $fullWidth?: boolean; }>`
+    width: ${props => props.$fullWidth ? "100%" : "auto"};
     display: flex;
-    align-items: center;
     justify-content: center;
-    aspect-ratio: ${props => props.$variant === "icon" ? "1" : "auth"};
+    align-items: center;
+    aspect-ratio: ${props => props.$variant === "icon" ? "1" : "auto"};
     font-size: 14px;
     font-weight: 600;
     color: ${props => (props.$variant === "contained" ? "#ffffff" : "inherit")};

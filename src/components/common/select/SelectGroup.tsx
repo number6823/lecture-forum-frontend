@@ -1,21 +1,21 @@
 import type { ReactNode, SelectHTMLAttributes } from "react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 import Select from "./Select.tsx";
-import { ErrorMessage, StyledInputGroup } from "../group/Group.tsx";
+import { ErrorMessage, Label, StyledInputGroup } from "../group/Group.tsx";
 
 interface Props extends SelectHTMLAttributes<HTMLSelectElement> {
     label?: string;
     id?: string;
     errorMessage?: string;
     registerObj?: UseFormRegisterReturn;
-    children: ReactNode; // ReactNode 타입은 React의 화면 요소를 나타낼 수 있는 대표 타입
+    children: ReactNode;   // ReactNode 타입은 React의 화면 요소를 나타낼 수 있는 대표 타입
     wrap?: boolean;
 }
 
 function SelectGroup({ label, id, errorMessage, registerObj, children, wrap, ...props }: Props) {
     return (
         <StyledInputGroup $wrap={wrap}>
-            {label && <label htmlFor={id}>{label}</label>}
+            {label && <Label htmlFor={id}>{label}</Label>}
             <Select id={id} $hasError={!!errorMessage} {...registerObj} {...props}>
                 {children}
             </Select>
@@ -23,4 +23,5 @@ function SelectGroup({ label, id, errorMessage, registerObj, children, wrap, ...
         </StyledInputGroup>
     );
 }
+
 export default SelectGroup;

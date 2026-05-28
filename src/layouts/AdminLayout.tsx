@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Outlet } from "react-router/internal/react-server-client";
+import { Outlet } from "react-router";
 import AdminAside from "../components/layout/admin/AdminAside.tsx";
 
 function AdminLayout() {
@@ -19,18 +19,19 @@ export default AdminLayout;
 
 const AdminContainer = styled.div`
     display: flex;
-    height: 100dvh;
+    min-height: 100dvh;
     background-color: ${props => props.theme.colors.background.default};
+`;
+
+
+const AdminMain = styled.main`
+    flex: 1;
+    padding: 32px;
+    overflow-y: auto;
 `;
 
 const AdminContentInner = styled.div`
     max-width: 1000px;
     margin: 0 auto;
     width: 100%;
-`;
-
-const AdminMain = styled.main`
-    flex: 1;
-    padding: 32px;
-    overflow-y: auto;
 `;

@@ -1,6 +1,6 @@
 export const CategoryStatus = {
     ACTIVE: "ACTIVE",
-    INACTIVE: "INACTIVE",
+    INACTIVE: "INACTIVE"
 }
 
 export type CategoryStatusType = typeof CategoryStatus[keyof typeof CategoryStatus];
@@ -11,5 +11,4 @@ export interface Category {
     updatedAt: Date;
     name: string;
     status: CategoryStatusType;
-
 }

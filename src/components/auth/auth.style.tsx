@@ -26,6 +26,7 @@ export const AuthTitle = styled.h1`
 export const AuthSubTitle = styled.h6`
     font-size: 15px;
     color: ${props => props.theme.colors.text.disabled};
+    text-align: center;
     margin-bottom: 32px;
 `;
 
@@ -35,8 +36,6 @@ export const AuthFormBox = styled.div`
     gap: 20px;
     margin-bottom: 50px;
 `;
-
-
 
 export const AuthRootErrorMessage = styled.p`
     font-size: 14px;

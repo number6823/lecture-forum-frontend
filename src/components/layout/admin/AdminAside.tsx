@@ -1,13 +1,12 @@
-import {  FiHome, FiUser } from "react-icons/fi";
 import styled from "styled-components";
+import { FiGrid, FiHome, FiUser } from "react-icons/fi";
 import { Link, useLocation } from "react-router";
-
 
 const adminNavList = [
     {
         path: "/admin/category",
         label: "카테고리 관리",
-        icon: <FiUser size={18} />,
+        icon: <FiGrid size={18} />,
     },
     {
         path: "/admin/user",
@@ -23,15 +22,19 @@ const adminNavList = [
 
 function AdminAside() {
     // 사용자가 현재 위치한 경로를 가져오기 위해 useLocation()을 준비하면,
-    // location.pathname 에 저장되엉 있음
+    // location.pathname 에 저장되어 있음
     const location = useLocation();
+
+    // /admin/category
+
     return (
         <AdminSidebar>
             <SidebarHeader to={"/admin"}>관리자 센터</SidebarHeader>
-            <SideBarMenu>
+            <SidebarMenu>
                 {adminNavList.map((item, index) => {
-                    // 지금 현재 사용자가 있는 위치에 따라 MenuItem 글자의 색상을 다르게 해줌 것임
+                    // 지금 현재 사용자가 있는 위치에 따라 MenuItem 글자의 색상을 다르게 해줄 것임
                     const isActive = item.path === location.pathname;
+
                     return (
                         <MenuItem to={item.path} key={index} $isActive={isActive}>
                             {item.icon}
@@ -39,7 +42,7 @@ function AdminAside() {
                         </MenuItem>
                     );
                 })}
-            </SideBarMenu>
+            </SidebarMenu>
         </AdminSidebar>
     );
 }
@@ -65,7 +68,7 @@ const SidebarHeader = styled(Link)`
     border-bottom: 1px solid ${props => props.theme.colors.divider};
 `;
 
-const SideBarMenu = styled.nav`
+const SidebarMenu = styled.nav`
     display: flex;
     flex-direction: column;
     padding: 16px 0;
@@ -73,20 +76,22 @@ const SideBarMenu = styled.nav`
 `;
 
 const MenuItem = styled(Link)<{ $isActive: boolean }>`
-display: flex;
-align-items: center;
-gap:12px;
-padding: 12px 24px;
-font-size: 15px;
-font-weight: 500;
-color: ${props => (props.$isActive ? props.theme.colors.primary : props.theme.colors.text.default)};
-background-color: ${props => (props.$isActive ? `${props.theme.colors.primary}15` : "transparent")};
-border-left: 4px solid ${props => props.$isActive ? props.theme.colors.primary : "transparent"};
-transition: all 0.2s;
-    
-    
-&:hover {
-    background-color: ${props => props.theme.colors.background.default}
-color: ${props => props.theme.colors.primary};
-}
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: 500;
+    color: ${props =>
+        props.$isActive ? props.theme.colors.primary : props.theme.colors.text.default};
+    background-color: ${props =>
+        props.$isActive ? `${props.theme.colors.primary}15` : "transparent"};
+    border-left: 4px solid
+        ${props => (props.$isActive ? props.theme.colors.primary : "transparent")};
+    transition: all 0.2s;
+
+    &:hover {
+        background-color: ${props => props.theme.colors.background.default};
+        color: ${props => props.theme.colors.primary};
+    }
 `;

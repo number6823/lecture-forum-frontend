@@ -1,5 +1,6 @@
 import type { DefaultTheme } from "styled-components";
 
+
 export const lightTheme: DefaultTheme = {
     colors: {
         background: {
@@ -12,7 +13,7 @@ export const lightTheme: DefaultTheme = {
         },
         divider: "#E5E7EB",
         primary: "#2563EB",
-        secondary: "#4F5563",
+        secondary: "#4B5563",
         success: "#10B981",
         error: "#EF4444",
         warning: "#F59E0B",

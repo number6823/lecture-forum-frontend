@@ -1,4 +1,4 @@
-import { Outlet } from "react-router/internal/react-server-client";
+import { Outlet } from "react-router";
 import styled from "styled-components";
 import MainHeader from "../components/layout/main/MainHeader.tsx";
 import MainFooter from "../components/layout/main/MainFooter.tsx";
@@ -25,7 +25,7 @@ function MainLayout() {
             <MainContainer>
                 <Outlet />
             </MainContainer>
-            <MainFooter/>
+            <MainFooter />
         </LayoutWrapper>
     );
 }

@@ -1,6 +1,5 @@
 import z from "zod";
-import { Gender } from "../../../types/user.type";
-import { Role } from "../../../types/user.type.ts";
+import { Gender, Role } from "../../../types/user.type.ts";
 
 export const adminUpdateUserSchema = z.object({
     username: z.string().min(4),

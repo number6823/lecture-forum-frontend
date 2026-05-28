@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Input = styled.input<{ $hasError?: boolean }>`
+const Input = styled.input<{ $hasError?: boolean }>`
     width: 100%;
     padding: 12px 16px;
     background-color: ${props => props.theme.colors.background.default};
@@ -17,7 +17,7 @@ export const Input = styled.input<{ $hasError?: boolean }>`
 
     &:focus {
         border-color: ${props =>
-    props.$hasError ? props.theme.colors.error : props.theme.colors.primary};
+            props.$hasError ? props.theme.colors.error : props.theme.colors.primary};
     }
 `;
 

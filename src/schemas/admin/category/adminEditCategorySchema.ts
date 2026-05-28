@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 export const adminEditCategorySchema = z.object({
     name: z
         .string()

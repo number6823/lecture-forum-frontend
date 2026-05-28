@@ -9,7 +9,7 @@ import {
 import Card from "../../../../components/common/card/Card.tsx";
 import InputGroup from "../../../../components/common/input/InputGroup.tsx";
 import SelectGroup from "../../../../components/common/select/SelectGroup.tsx";
-import { Gender, Role} from "../../../../types/user.type.ts";
+import { Gender, Role } from "../../../../types/user.type.ts";
 import { AuthRootErrorMessage } from "../../../../components/auth/auth.style.tsx";
 import Button from "../../../../components/common/button/Button.tsx";
 import { Link, useNavigate, useParams } from "react-router";
@@ -26,7 +26,6 @@ import { useEffect, useState } from "react";
 function AdminUserUpdatePage() {
     const navigate = useNavigate();
     const { id } = useParams<{ id: string }>();
-
 
     const [isLoading, setIsLoading] = useState(true);
 
@@ -47,7 +46,7 @@ function AdminUserUpdatePage() {
                 const result = await adminUserApi.fetchUserById(Number(id));
 
                 // 데이터베이스를 조회해서 backend가 전달해 준 날짜-시간 관련 값은
-                // 2026-05-22T00:00:00.000Z 형태(ISO 8601 국제 표준 날짜 및 시간 표기법)
+                // 2026-05-22T00:00:00.000Z 형태임 (ISO 8601 국제 표준 날짜 및 시간 표기법)
                 // input type="date"로 지정한 input은 "2026-05-22" 형태를 받아야 함
                 // 결국 ISO 8601 표기법의 값 중 T부터 뒷부분을 잘라 전달해줘야 정상 출력됨
                 reset({
@@ -70,7 +69,7 @@ function AdminUserUpdatePage() {
         };
 
         loadUser().then(() => {});
-    }, [id,navigate, isLoading]);
+    }, [id, navigate, reset]);
 
     const onSubmit = async (data: AdminUpdateUserInputType) => {
         try {
@@ -78,10 +77,10 @@ function AdminUserUpdatePage() {
             alert("사용자 정보의 업데이트가 완료 되었습니다.");
             navigate("/admin/user");
         } catch (error) {
-            // backend에서 여러가지 이유로 실패됐다는 내용을 전달해줄 수 있음
-            // 어떠한ㄴ 에러가 도착하든, 저 text만 화면에 출력하고 끝내겠다.
-            /*  console.log(error);
-            setError("root", {message:"사용자 정보의 업데이트에 실패했습니다."});*/
+            // backend에서 여러가지 이유로 실패됐는다는 내용을 전달해줄 수 있음
+            // 어떠한 에러가 도착하든, 저 text만 화면에 출력하고 끝내겠다
+            // console.log(error);
+            // setError("root", { message: "사용자 정보의 업데이트에 실패했습니다." });
 
             if (axios.isAxiosError(error)) {
                 setError("root", { message: error.response?.data?.message });
@@ -109,7 +108,6 @@ function AdminUserUpdatePage() {
                             registerObj={register("username")}
                             placeholder={"4자 이상 필요"}
                         />
-
                         <InputGroup
                             wrap={true}
                             label={"비밀번호"}
@@ -119,7 +117,6 @@ function AdminUserUpdatePage() {
                             placeholder={"6자 이상 필요"}
                             type={"password"}
                         />
-
                         <InputGroup
                             wrap={true}
                             label={"이름"}
@@ -127,7 +124,6 @@ function AdminUserUpdatePage() {
                             errorMessage={errors.name?.message}
                             registerObj={register("name")}
                         />
-
                         <InputGroup
                             wrap={true}
                             label={"닉네임"}
@@ -145,7 +141,6 @@ function AdminUserUpdatePage() {
                             registerObj={register("email")}
                             type={"email"}
                         />
-
                         <InputGroup
                             wrap={true}
                             label={"전화번호"}
@@ -154,7 +149,6 @@ function AdminUserUpdatePage() {
                             registerObj={register("phoneNumber")}
                             type={"tel"}
                         />
-
                         <InputGroup
                             wrap={true}
                             label={"생년월일"}
@@ -183,6 +177,7 @@ function AdminUserUpdatePage() {
                             <option value={Role.ADMIN}>관리자</option>
                             <option value={Role.USER}>일반 사용자</option>
                         </SelectGroup>
+
                         <div style={{ width: "100%", gap: "32px" }}>
                             {errors.root && (
                                 <AuthRootErrorMessage>{errors.root?.message}</AuthRootErrorMessage>
@@ -211,5 +206,4 @@ function AdminUserUpdatePage() {
         </AdminContainer>
     );
 }
-
 export default AdminUserUpdatePage;
