@@ -1,7 +1,6 @@
 import { createBrowserRouter, redirect } from "react-router";
 import HomePage from "../pages/HomePage.tsx";
 import SignInPage from "../pages/auth/signin/signInPage.tsx";
-import SignUpPage from "../pages/auth/signup/signUpPage.tsx";
 import MainLayout from "../layouts/MainLayout.tsx";
 import AdminLayout from "../layouts/AdminLayout.tsx";
 import AdminCategoryListPage from "../pages/admin/category/AdminCategoryListPage.tsx";
@@ -14,6 +13,8 @@ import AdminUserListPage from "../pages/admin/user/AdminUserListPage.tsx";
 import AdminUserUpdatePage from "../pages/admin/user/update/AdminUserUpdatePage.tsx";
 import PostListPage from "../pages/post/PostListPage.tsx";
 import PostCreatePage from "../pages/post/create/PostCreatePage.tsx";
+import PostDetailPage from "../pages/post/detail/PostDetailPage.tsx";
+import SignUpPage from "../pages/auth/signUp/signUpPage.tsx";
 
 // 회원의 권한에 따라 접근할 수 있는 주소를 판별하기 위해서
 // react-router 라이브러리에서는 "loader" 기능 제공
@@ -52,7 +53,7 @@ const userLoader = () => {
     }
 
     return null;
-}
+};
 
 const router = createBrowserRouter([
     {
@@ -74,7 +75,8 @@ const router = createBrowserRouter([
             {
                 path: "post",
                 children: [
-                    { path: "create/:categoryId", loader:userLoader, element: <PostCreatePage /> },
+                    { path: ":id", element: <PostDetailPage /> },
+                    { path: "create/:categoryId", loader: userLoader, element: <PostCreatePage /> },
                 ],
             },
 

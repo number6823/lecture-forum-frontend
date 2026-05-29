@@ -17,13 +17,14 @@ import { Link, useSearchParams } from "react-router";
 import { Role, type User } from "../../../types/user.type.ts";
 import adminUserApi from "../../../api/admin/user/adminUserApi.ts";
 import { FiEdit, FiTrash } from "react-icons/fi";
+import Pagination from "../../../components/common/pagination/Pagination.tsx";
 
 function AdminUserListPage() {
     const [list, setList] = useState<User[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-     const [searchParams, setSearchParams] = useSearchParams();
-     const page = Number(searchParams.get("page")) || 1;  // 이것 자체 state임
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = Number(searchParams.get("page")) || 1; // 이것 자체 state임
 
     const SIZE = 20;
     const [total, setTotal] = useState(0);
@@ -57,8 +58,7 @@ function AdminUserListPage() {
         // 그 함수를 밖으로 뺌
 
         // 사용자의 스크롤을 이동시키는 명령
-        window.scrollTo({ top:0, behavior: "smooth" });
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         loadUsers(page).then(() => {});
@@ -185,29 +185,11 @@ function AdminUserListPage() {
                 )}
 
                 {total > 0 && (
-                    <div
-                        style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "10px",
-                            marginTop: "20px",
-                        }}>
-                        <Button
-                            variant={"text"}
-                            color={"primary"}
-                            disabled={page === 1}
-                            onClick={() => handlePageChange(page - 1)}>
-                            이전
-                        </Button>
-                        <Button
-                            variant={"text"}
-                            color={"primary"}
-                            disabled={page === totalPage}
-                            onClick={() => handlePageChange(page + 1)}>
-                            다음
-                        </Button>
-                    </div>
+                    <Pagination
+                        currentPage={page}
+                        totalPage={totalPage}
+                        onPageChange={handlePageChange}
+                    />
                 )}
             </Card>
         </AdminContainer>

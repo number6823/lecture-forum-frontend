@@ -13,6 +13,7 @@ import {
 } from "../../components/post/post.style.tsx";
 import Button from "../../components/common/button/Button.tsx";
 import { useAuthStore } from "../../stores/auth/authStore.ts";
+import Pagination from "../../components/common/pagination/Pagination.tsx";
 
 function PostListPage() {
     // 주소를 통해 categoryId가 오는구나
@@ -51,6 +52,11 @@ function PostListPage() {
         window.scrollTo({ top: 0, behavior: "smooth" });
         loadList().then(() => {});
     }, [page, categoryId, size]);
+
+    const onPageChange = (page: number) => {
+        searchParams.set("page", page.toString());
+        setSearchParams(searchParams);
+    }
 
     return (
         <PostContainer>
@@ -91,10 +97,35 @@ function PostListPage() {
                                     </BoardTh>
                                 </tr>
                             )}
+                            {list.map(item => (
+                                <tr key={item.id}>
+                                    <BoardTh>{item.id}</BoardTh>
+                                    <BoardTh className={"title-cell"}>
+                                        <Link to={`/post/${item.id}`}>{item.title}</Link>
+                                    </BoardTh>
+                                    <BoardTh>{item.user.nickname}</BoardTh>
+                                    <BoardTh>
+                                        {/*
+                                           Date 클래스 메서드 중 toLocalString()은
+                                           해당 날짜를 사용자의 지역 시간에 맞게 문자열로 변환하는 메서드
+                                           .toLocalString(해당 지역, 옵션 객체)
+                                           .toLocaleString(해당지역, 해당칼럼)
+                                        */}
+                                        {new Date(item.createdAt).toLocaleDateString("ko-KR", {
+                                            year: "numeric",
+                                            month: "2-digit",
+                                            day: "2-digit",
+                                        })}
+                                    </BoardTh>
+                                    <BoardTh>{item.views}</BoardTh>
+                                </tr>
+                            ))}
                         </tbody>
                     </BoardTable>
                 )}
             </BoardWrapper>
+
+            <Pagination currentPage={page} totalPage={totalPage} onPageChange={onPageChange} />
         </PostContainer>
     );
 }

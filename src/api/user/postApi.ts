@@ -9,6 +9,11 @@ const fetchPostListByCategory = async (categoryId: number,page:number, size:numb
     return response.data.data
 };
 
+const fetchPostById = async (id: number): Promise<Post> => {
+    const response = await axiosInstance.get(`/post/${id}`);
+    return response.data.data;
+}
+
 const createPost = async (data: CreatePostInputType) => {
     const response = await axiosInstance.post("/post/create",data);
     return response.data.data;
@@ -17,4 +22,5 @@ const createPost = async (data: CreatePostInputType) => {
 export default {
     fetchPostListByCategory,
     createPost,
+    fetchPostById,
 };

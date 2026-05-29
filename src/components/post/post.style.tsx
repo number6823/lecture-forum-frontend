@@ -53,10 +53,10 @@ export const VoteSectionTitle = styled.h3`
 `;
 
 export const VoteSectionDescription = styled.p`
-font-size: 14px;
-color: ${props => props.theme.colors.secondary};
-margin-bottom: 20px;`
-
+    font-size: 14px;
+    color: ${props => props.theme.colors.secondary};
+    margin-bottom: 20px;
+`;
 
 export const FormDivider = styled.hr`
     border: none;
@@ -64,11 +64,11 @@ export const FormDivider = styled.hr`
 `;
 
 export const VoteFieldFlex = styled.div`
-display: flex;
-gap: 32px;
-flex-wrap: wrap;
-width: 100%;
-`
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    width: 100%;
+`;
 
 export const BoardWrapper = styled.div`
     background-color: ${props => props.theme.colors.background.paper};
@@ -117,6 +117,52 @@ export const BoardTd = styled.td<{ $align?: "left" | "center" | "right" }>`
     &.title-cell {
         text-align: left;
     }
+`;
+
+export const DetailWrapper = styled.div`
+    background-color: ${props => props.theme.colors.background.paper};
+    border-radius: 8px;
+    border: 1px solid ${props => props.theme.colors.divider};
+    padding: 32px;
+`;
+
+export const DetailHeader = styled.div`
+    border-bottom: 1px solid ${props => props.theme.colors.divider};
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+`;
+
+export const DetailTitle = styled.h1`
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+`;
+
+export const DetailInfo = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: ${props => props.theme.colors.text.disabled};
+
+    .left-info {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .right-info {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+`;
+
+export const DetailContent = styled.div`
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100px;
+    white-space: pre-wrap; // 줄바꿈 문자 \ n을 실제 줄바꿈으로 처리
 `;
 
 export const LoadingText = styled.div`
