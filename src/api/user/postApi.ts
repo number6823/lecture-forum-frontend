@@ -17,10 +17,16 @@ const fetchPostById = async (id: number): Promise<Post> => {
 const createPost = async (data: CreatePostInputType) => {
     const response = await axiosInstance.post("/post/create",data);
     return response.data.data;
+};
+
+const votePost = async (postId: number, option:number) => {
+    await axiosInstance.post(`/post/${postId}/vote`, { option });
+    // 백엔드가 처리 후 응답(Response) 하는 내용이 필요 없으면 return 안해도 됨
 }
 
 export default {
     fetchPostListByCategory,
     createPost,
     fetchPostById,
+    votePost,
 };
