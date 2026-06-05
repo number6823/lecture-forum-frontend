@@ -71,6 +71,20 @@ margin-bottom: 12px;
         color: ${props => props.theme.colors.text.disabled};
     }
 }
+
+    .modify-btn {
+        background: ${props => props.theme.colors.text.disabled};
+        border-radius: 4px;
+        border: none;
+        color: #ffffff;
+        font-size: 13px;
+        cursor: pointer;
+        padding: 4px 8px;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
     
     .delete-btn {
         background: ${props => props.theme.colors.error};
