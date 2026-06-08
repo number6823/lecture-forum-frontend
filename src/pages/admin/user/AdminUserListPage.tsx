@@ -20,14 +20,41 @@ import { FiEdit, FiTrash } from "react-icons/fi";
 import Pagination from "../../../components/common/pagination/Pagination.tsx";
 
 function AdminUserListPage() {
+    // 선언문 - 왜 선언했는가?
+    // 앞으로 사용자 목록을 출력해주기 위해 백엔드에게 데이터 요청을 보낼테니
+    // 그 받아온 정보를 저장하고 화면에 출력을 해줄
+    // User[]가 저장될 수 있는 초기값 [], list이름을 붙인 state를 선언한다
     const [list, setList] = useState<User[]>([]);
+
+    // 얘는 백엔드와의 통신이 진행 중인지 여부를 나타내는
+    // 얘를 통해서 통신 진행 중에는 화면이 출력되지 않도록 제한하기 위해
     const [isLoading, setIsLoading] = useState(true);
 
+    // 이 컴포넌트는 목록을 추력해줄 목적의 캄ㅍ포넌트니까,
+    // 페이지네이션이 따라오게끔 설계 되어있고,
+    // 페이지네이션을 위해 page와 size가 쿼리스트링에 포함되므로
     const [searchParams, setSearchParams] = useSearchParams();
+
+    // 페이지네이션을 하는데 지금 현재 사용자가 보고 있는 page 번호를 알아야
+    // 백엔드에게도 그에 맞춰 여청할 것이고, 페이지네이션에도 색깔을 바꿔 출력해줄 수 있을테니까
+    // 근데 최초 주소는 /admin/user 라는 주소라 퀴리스트링이 없음. 그러니까 초기값을 논리합으로 계산
+    // 쿼리스트링에 존재 하는 page 항목의 값을 가져오거나, 없으면 1을 number타입으로 page 변수에 저장
     const page = Number(searchParams.get("page")) || 1; // 이것 자체 state임
 
+    // page는 변경이 가능하도록 하기 위해 쿼리스트링에 포함시켰는데,SIZE는
+    // 개발자가 값을 안 바꿀 모양이다 => 쿼리스트링에 SIZE는 포함이 안되나보다
+    // SIZE라고 "대문자"로 쓴 변수명에 상수로서(바뀌지 않는 값) 20을 저장
     const SIZE = 20;
+
+    // 페이지네이션을 할 때 마지막 페이지를 계산하기 위한 목적으로 전체 총 공지사항 갯숙가 필요하니
+    // 그것을 백엔드에게 받아서 저장할 목적으로
+    // 초기값 0의 number 타입 total이라는 state를 선언
     const [total, setTotal] = useState(0);
+
+    // 실제 페이지네이션에 출력되는 버튼을 "공지사항 갯수"로 출력하는게 아니라
+    // 총 "페이지 매 수" 로 출력하니까 여러군데서 이에 대해 사용될거 같으닌 한번에 계산을 시키고
+    // totalPage만 불러다가 쓰겠구나
+    // total 값을 SIZE로 나누워, 올림한 값을 저장하는 totaPage 변수 선언
     const totalPage = Math.ceil(total / SIZE); // Math.ceil() : 올림 메서드
 
     const loadUsers = async (page: number) => {
@@ -39,6 +66,8 @@ function AdminUserListPage() {
             console.log(error);
             alert("사용자 목록을 불러오는데 실패했습니다.");
         } finally {
+
+            // try가 끝나는,catch가 끝나든, 어떠한 것이 끝나는 마지막에 isLoading state가 false 바꿀
             setIsLoading(false);
         }
     };
@@ -62,8 +91,14 @@ function AdminUserListPage() {
 
         // eslint-disable-next-line react-hooks/set-state-in-effect
         loadUsers(page).then(() => {});
+
+        // page state의 값이 바뀔 때마다 게시글 목록을 해당 page번호에 맞추어 다시 백엔드에게 받아오고
+        // 화면 위치를 맨 위로 옮기겠구나
+        // page state의 값이 바뀔 때마다 useEffect 재발동됨
     }, [page]);
 
+
+    // handler (핸들러) : 상호작용을 통해 무언가 동작을 실행시키는 함수
     const handleDelete = async (id: number) => {
         // confirm은 사용자에게 경고창을 통해 확인을 받는 메서드. true/false 가 반환됨
         // 그렇게 취소를 하면 더 이상 함수 진행을 안함
@@ -91,6 +126,7 @@ function AdminUserListPage() {
         }
     };
 
+    // 페이지 번호(매개변수)를 통해 page의 값을 변화 시키는 핸들러
     const handlePageChange = (page: number) => {
         // state의 값을 바로 바꾸는게 아니라,
         // 쿼리스트링에 존재하는 page의 값을 변경해야 함

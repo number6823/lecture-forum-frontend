@@ -7,7 +7,7 @@ const getNoticeById = async (noticeId: number): Promise<Notice> => {
     return response.data.data;
 };
 
-const getNoticeList = async (
+ const getNoticeList = async (
     page?: number,
     size?: number,
 ): Promise<
@@ -19,6 +19,7 @@ const getNoticeList = async (
             size,
         },
     });
+
     return response.data.data;
 };
 
