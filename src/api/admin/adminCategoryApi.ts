@@ -1,4 +1,4 @@
-import axiosInstance from "../axiosInstance.ts";
+ import axiosInstance from "../axiosInstance.ts";
 import type { Category } from "../../types/category.type.ts";
 import type { AdminCreateCategoryInputType } from "../../schemas/admin/category/adminCreateCategorySchema.ts";
 import type { AdminEditCategoryInputType } from "../../schemas/admin/category/adminEditCategorySchema.ts";

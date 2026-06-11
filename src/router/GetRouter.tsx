@@ -21,6 +21,13 @@ import AdminNoticeDetailPage from "../pages/admin/notice/detail/AdminNoticeDetai
 import AdminNoticeUpdatePage from "../pages/admin/notice/update/AdminNoticeUpdatePage.tsx";
 import NoticeListPage from "../pages/notice/NoticeListPage.tsx";
 import NoticeDetailPage from "../pages/notice/detail/NoticeDetailPage.tsx";
+import AdminInquiryListPage from "../pages/admin/inquiry/AdminInquiryListPage.tsx";
+import MyLayout from "../layouts/MyLayout.tsx";
+import MyInfoPage from "../pages/my/info/MyInfoPage.tsx";
+import MyInquiryListPage from "../pages/my/inquiry/MyInquiryListPage.tsx";
+import MyInquiryCreatePage from "../pages/my/inquiry/create/MyInquiryCreatePage.tsx";
+import MyInquiryDetailPage from "../pages/my/detail/MyInquiryDetailPage.tsx";
+import MyInquiryEditPage from "../pages/my/inquiry/edit/MyInquiryEditPage.tsx";
 
 // 회원의 권한에 따라 접근할 수 있는 주소를 판별하기 위해서
 // react-router 라이브러리에서는 "loader" 기능 제공
@@ -101,6 +108,22 @@ const router = createBrowserRouter([
                     { path: ":id", element: <NoticeDetailPage /> },
                 ],
             },
+            {
+                path: "my",
+                element: <MyLayout />,
+                children: [
+                    { index: true, element: <MyInfoPage /> },
+                    {
+                        path: "inquiry",
+                        children: [
+                            { index: true, element: <MyInquiryListPage /> },
+                            { path: "create", element: <MyInquiryCreatePage /> },
+                            { path: ":inquiryId", element: <MyInquiryDetailPage /> },
+                            { path: "edit/:inquiryId", element: <MyInquiryEditPage /> },
+                        ],
+                    },
+                ],
+            },
         ],
     },
 
@@ -134,6 +157,10 @@ const router = createBrowserRouter([
                     { path: ":id", element: <AdminNoticeDetailPage /> },
                     { path: "update/:id", element: <AdminNoticeUpdatePage /> },
                 ],
+            },
+            {
+                path: "inquiry",
+                children: [{ index: true, element: <AdminInquiryListPage /> }],
             },
         ],
     },
