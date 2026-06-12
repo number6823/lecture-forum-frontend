@@ -11,8 +11,9 @@ import {
     LoadingText,
     PostContainer,
 } from "../../../components/post/post.style.tsx";
-import { AdminButtonGroup } from "../../../components/admin/admin.style.tsx";
+import { AdminButtonGroup, AnswerHeader } from "../../../components/admin/admin.style.tsx";
 import Button from "../../../components/common/button/Button.tsx";
+import { AnswerBox } from "../../../components/inquiry/inquiry.style.ts";
 
 function MyInquiryDetailPage() {
     const { inquiryId } = useParams<{ inquiryId: string }>();
@@ -79,6 +80,19 @@ function MyInquiryDetailPage() {
                 </DetailHeader>
 
                 <DetailContent>{inquiry.content}</DetailContent>
+
+                {inquiry.answer && (
+                    <AnswerBox>
+                        <AnswerHeader>
+                            <span className={"admin-label"}>관리자 답변</span>
+                            <span className={"answer=date"}>
+                                {inquiry.answeredAt &&
+                                    new Date(inquiry.answeredAt).toLocaleString()}
+                            </span>
+                        </AnswerHeader>
+                        <DetailContent className={"answer=content"}>{inquiry.answer}</DetailContent>
+                    </AnswerBox>
+                )}
 
                 <AdminButtonGroup style={{ marginTop: "40px" }}>
                     <Button color={"secondary"} variant={"contained"} onClick={() => navigate(-1)}>
