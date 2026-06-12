@@ -22,10 +22,15 @@ const updateInquiryAnswer = async (inquiryId:number, input: AdminInquiryAnswerIn
     return response.data.data;
 }
 
+const deleteInquiryAnswer = async (inquiryId:number) => {
+    await axiosInstance.delete(`/admin/inquiry/${inquiryId}`);
+}
+
 
 
 export default {
     getInquiryList,
     getInquiryById,
     updateInquiryAnswer,
+    deleteInquiryAnswer,
 };
