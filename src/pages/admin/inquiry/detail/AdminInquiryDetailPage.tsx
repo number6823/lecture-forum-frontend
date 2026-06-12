@@ -1,17 +1,27 @@
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import type { Inquiry } from "../../../../types/Inquiry.type.ts";
-import { DetailContent, DetailHeader, DetailInfo, DetailTitle, DetailWrapper, LoadingText, PostContainer } from "../../../../components/post/post.style.tsx";
-import { AdminButtonGroup } from "../../../../components/admin/admin.style.tsx";
+import {
+    DetailContent,
+    DetailHeader,
+    DetailInfo,
+    DetailTitle,
+    DetailWrapper,
+    LoadingText,
+    PostContainer,
+} from "../../../../components/post/post.style.tsx";
+import { AdminButtonGroup, AnswerSection } from "../../../../components/admin/admin.style.tsx";
 import Button from "../../../../components/common/button/Button.tsx";
 import adminInquiryApi from "../../../../api/admin/adminInquiryApi.ts";
+import AdminInquiryAnswerForm from "../../../../components/inquiry/AdminInquiryAnswerForm.tsx";
+import AdminInquiryAnswerBox from "../../../../components/inquiry/AdminInquiryAnswerBox.tsx";
 
 function AdminInquiryDetailPage() {
     const navigate = useNavigate();
     const [inquiry, setInquiry] = useState<Inquiry | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams<{ id: string }>();
-    const inquiryId = Number(id)
+    const inquiryId = Number(id);
 
     useEffect(() => {
         const loadInquiry = async () => {
@@ -21,14 +31,13 @@ function AdminInquiryDetailPage() {
             } catch (error) {
                 console.log(error);
                 alert("게시글을 불러오는데 오류가 발생했습니다.");
-                navigate(-1)
+                navigate(-1);
             } finally {
                 setIsLoading(false);
             }
         };
         loadInquiry().then(() => {});
     }, [inquiryId, navigate]);
-
 
     if (isLoading) {
         return (
@@ -55,6 +64,16 @@ function AdminInquiryDetailPage() {
                 </DetailHeader>
 
                 <DetailContent>{inquiry.content}</DetailContent>
+
+                <hr />
+
+                {/* 만약에, 답변이 아직 달리지 않았다면 Textarea를 띄워서 답변을 달 수 있도록  할 것이고
+                           답변이 이미 달렸다면 답변 내용잉 출렫괼 수 있도록 함
+
+                 */}
+                <AnswerSection>
+                    {inquiry.answer ? <AdminInquiryAnswerBox /> : <AdminInquiryAnswerForm inquiryId={inquiryId}/>}
+                </AnswerSection>
 
                 <AdminButtonGroup style={{ marginTop: "40px" }}>
                     <Button color={"secondary"} variant={"contained"} onClick={() => navigate(-1)}>

@@ -1,4 +1,5 @@
 import axiosInstance from "../axiosInstance.ts";
+import type { AdminInquiryAnswerInputType } from "../../schemas/admin/inquiry/AdminInquiryAnswerSchema.ts";
 
 const getInquiryList = async (page: number, size: number) => {
     const response = await axiosInstance.get("/admin/inquiry/list", {
@@ -15,7 +16,16 @@ const getInquiryById = async (inquiryId: number) => {
     return response.data.data;
 };
 
+
+const updateInquiryAnswer = async (inquiryId:number, input: AdminInquiryAnswerInputType) => {
+    const response = await axiosInstance.patch(`/admin/inquiry/${inquiryId}`, input);
+    return response.data.data;
+}
+
+
+
 export default {
     getInquiryList,
     getInquiryById,
+    updateInquiryAnswer,
 };
