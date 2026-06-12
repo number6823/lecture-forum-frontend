@@ -1,16 +1,21 @@
 import type { Inquiry } from "../../types/Inquiry.type.ts";
-import type { ReactElement } from "react";
-import { AdminButtonGroup, AnswerContent, AnswerDisplay, AnswerHeader } from "../admin/admin.style.tsx";
+import type { Dispatch, ReactElement, SetStateAction } from "react";
+import {
+    AdminButtonGroup,
+    AnswerContent,
+    AnswerDisplay,
+    AnswerHeader,
+} from "../admin/admin.style.tsx";
 import Button from "../common/button/Button.tsx";
 import adminInquiryApi from "../../api/admin/adminInquiryApi.ts";
 
 interface Props {
     inquiry: Inquiry;
     reload: () => Promise<void>;
+    setIsEdit: Dispatch<SetStateAction<boolean>>;
 }
 
-
-function AdminInquiryAnswerBox ({inquiry, reload}: Props): ReactElement {
+function AdminInquiryAnswerBox({ inquiry, reload, setIsEdit }: Props): ReactElement {
     // 답변 내용이 출력되는 컴포넌트\
     const handleDeleteAnswer = async () => {
         try {
@@ -19,9 +24,9 @@ function AdminInquiryAnswerBox ({inquiry, reload}: Props): ReactElement {
             await reload();
         } catch (error) {
             console.log(error);
-            alert("관리자 답변 삭제 중 오류가 발생되었습니다.")
+            alert("관리자 답변 삭제 중 오류가 발생되었습니다.");
         }
-    }
+    };
 
     return (
         <AnswerDisplay>
@@ -33,11 +38,14 @@ function AdminInquiryAnswerBox ({inquiry, reload}: Props): ReactElement {
             </AnswerHeader>
             <AnswerContent className={"answer-content"}>{inquiry.answer}</AnswerContent>
 
-            <AdminButtonGroup $align={"right"} style={{marginTop:"24px"}}>
-                <Button color={"warning"} variant={"contained"}>답변 수정</Button>
-                <Button color={"error"} variant={"contained"} onClick={handleDeleteAnswer}>답변 삭제</Button>
+            <AdminButtonGroup $align={"right"} style={{ marginTop: "24px" }}>
+                <Button color={"warning"} variant={"contained"} onClick={() => setIsEdit(true)}>
+                    답변 수정
+                </Button>
+                <Button color={"error"} variant={"contained"} onClick={handleDeleteAnswer}>
+                    답변 삭제
+                </Button>
             </AdminButtonGroup>
-
         </AnswerDisplay>
     );
 }

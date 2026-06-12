@@ -22,6 +22,7 @@ function AdminInquiryDetailPage() {
     const [isLoading, setIsLoading] = useState(true);
     const { id } = useParams<{ id: string }>();
     const inquiryId = Number(id);
+    const [isEdit, setIsEdit] = useState(false);
 
     // useCallback(): React에서 제공하는 기능
     // loadInquiry는 useEffect 안에 있을 때눈 계속 새로운 애가 생성되는건데
@@ -89,25 +90,25 @@ function AdminInquiryDetailPage() {
 
                  */}
                 <AnswerSection>
-                    {inquiry.answer ? (
-                        <AdminInquiryAnswerBox inquiry={inquiry} reload={loadInquiry} />
+                    {inquiry.answer && !isEdit ? (
+                        <AdminInquiryAnswerBox
+                            inquiry={inquiry}
+                            reload={loadInquiry}
+                            setIsEdit={setIsEdit}
+                        />
                     ) : (
-                        <AdminInquiryAnswerForm inquiryId={inquiryId} reload={loadInquiry} />
+                        <AdminInquiryAnswerForm
+                            inquiry={inquiry}
+                            reload={loadInquiry}
+                            isEdit={isEdit}
+                            setIsEdit={setIsEdit}
+                        />
                     )}
                 </AnswerSection>
 
                 <AdminButtonGroup style={{ marginTop: "40px" }}>
                     <Button color={"secondary"} variant={"contained"} onClick={() => navigate(-1)}>
                         목록으로.
-                    </Button>
-                    <Button
-                        color={"warning"}
-                        variant={"contained"}
-                        onClick={() => navigate(`/admin/notice/update/${inquiry.id}`)}>
-                        수정
-                    </Button>
-                    <Button color={"error"} variant={"contained"}>
-                        삭제
                     </Button>
                 </AdminButtonGroup>
             </DetailWrapper>
